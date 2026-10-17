@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The English Assistant</title>
+<style>
+  * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 0; }
+  body { background: #f8f9fa; color: #333; padding-bottom: 40px; }
+  header { background: #0D6E6E; color: white; padding: 20px; text-align: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+  header h1 { font-size: 22px; margin-bottom: 5px; }
+  header p { font-size: 14px; color: #e0e0e0; }
+  .container { padding: 15px; max-width: 600px; margin: auto; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+  .card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center; cursor: pointer; border: 1px solid #eee; transition: 0.2s; }
+  .card:active { transform: scale(0.97); background: #f0fdfa; }
+  .card h3 { font-size: 15px; color: #0D6E6E; margin-bottom: 5px; }
+  .card p { font-size: 11px; color: #777; }
+  .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #999; }
+  .btn { display: block; width: 100%; padding: 15px; background: #0D6E6E; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; margin-top: 15px; cursor: pointer; }
+  .btn:active { background: #095252; }
+  .option { display: block; width: 100%; padding: 15px; background: white; border: 2px solid #ddd; border-radius: 10px; margin-top: 10px; text-align: left; font-size: 15px; cursor: pointer; }
+  .option.correct { background: #d1fae5; border-color: #10b981; color: #065f46; font-weight: bold; }
+  .option.wrong { background: #fee2e2; border-color: #ef4444; color: #991b1b; font-weight: bold; }
+  .question-box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-size: 16px; line-height: 1.5; margin-bottom: 20px; }
+  .explanation { background: #e0f2fe; padding: 15px; border-radius: 10px; font-size: 14px; color: #0369a1; margin-top: 15px; border-left: 4px solid #0284c7; }
+  .back-btn { background: none; border: none; color: #0D6E6E; font-size: 16px; margin-bottom: 15px; cursor: pointer; padding: 5px; }
+  .hidden { display: none; }
+  .progress-bar { height: 6px; background: #e5e7eb; border-radius: 3px; margin-bottom: 15px; }
+  .progress-fill { height: 100%; background: #0D6E6E; border-radius: 3px; width: 0%; transition: 0.3s; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>The English Assistant</h1>
+  <p>SPINE - Sudan Secondary Certificate</p>
+</header>
+
+<div class="container" id="app">
+  <div id="menu">
+    <div class="grid">
+      <div class="card" onclick="startSection('Grammar')"><h3>Grammar</h3><p>Tenses, Passive, Conditionals</p></div>
+      <div class="card" onclick="startSection('Suffixes')"><h3>Suffixes</h3><p>-ful, -less, -ly...</p></div>
+      <div class="card" onclick="startSection('Prefixes')"><h3>Prefixes</h3><p>un-, dis-, im-...</p></div>
+      <div class="card" onclick="startSection('Filling Gaps')"><h3>Filling Gaps</h3><p>Choose the correct word</p></div>
+      <div class="card" onclick="startSection('Summary')"><h3>Summary</h3><p>Key points</p></div>
+      <div class="card" onclick="startSection('Comprehension')"><h3>Comprehension</h3><p>Read and answer</p></div>
+      <div class="card" onclick="startSection('Composition')"><h3>Composition</h3><p>120-180 words</p></div>
+      <div class="card" onclick="startSection('Treasure Island')"><h3>Treasure Island</h3><p>Literature MCQ</p></div>
+    </div>
+    <div class="footer">
+      Designed by<br><b>Ustaz Hashim Hassan Al-Mahi</b>
+    </div>
+  </div>
+
+  <div id="quiz" class="hidden">
+    <button class="back-btn" onclick="goHome()">← Back to Menu</button>
+    <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+    
+    <div class="question-box" id="questionText"></div>
+    <div id="optionsContainer"></div>
+    <div class="explanation hidden" id="explanation"></div>
+    
+    <button class="btn hidden" id="nextBtn" onclick="nextQuestion()">Next Question</button>
+  </div>
+
+  <div id="result" class="hidden" style="text-align: center; margin-top: 40px;">
+    <h1 style="font-size: 50px; margin-bottom: 10px;">🎉</h1>
+    <h2 id="resultTitle">Finished!</h2>
+    <p style="font-size: 20px; margin: 15px 0;" id="scoreText"></p>
+    <button class="btn" onclick="goHome()">Back to Home</button>
+  </div>
+</div>
+
+<script>
+const data = {
+  "Grammar": [
+    { q: "Ali ______ to school every day. (go)", options: ["go", "goes", "going", "went"], a: 1, exp: "Present Simple: Ali (he) takes verb + s." },
+    { q: "They ______ football yesterday. (play)", options: ["play", "plays", "played", "playing"], a: 2, exp: "Past Simple: yesterday indicates past tense V2." },
+    { q: "Look! The baby ______ now. (sleep)", options: ["sleeps", "is sleeping", "slept", "sleep"], a: 1, exp: "Present Continuous: happening now." },
+    { q: "The letter ______ by Ahmed yesterday. (write)", options: ["wrote", "was written", "is written", "written"], a: 1, exp: "Passive Voice Past: was + V3." },
+    { q: "If it ______ tomorrow, we will cancel. (rain)", options: ["rains", "will rain", "rained", "is raining"], a: 0, exp: "First Conditional: If + Present Simple, will + V." }
+  ],
+  "Suffixes": [
+    { q: "Be ______ when you cross the street. (care)", options: ["care", "careful", "careless", "caring"], a: 1, exp: "-ful means full of care." },
+    { q: "He felt ______ after losing. (hope)", options: ["hope", "hopeful", "hopeless", "hoping"], a: 2, exp: "-less means without hope." },
+    { q: "He ran ______ to catch the bus. (quick)", options: ["quick", "quicker", "quickly", "quickness"], a: 2, exp: "-ly turns adjectives into adverbs." }
+  ],
+  "Prefixes": [
+    { q: "He was ______ because he failed. (happy)", options: ["happy", "unhappy", "happier", "happily"], a: 1, exp: "un- means not (not happy)." },
+    { q: "I ______ with your opinion. (agree)", options: ["agree", "disagree", "agreement", "agreeing"], a: 1, exp: "dis- means opposite/not." },
+    { q: "It is ______ to finish in one day. (possible)", options: ["possible", "impossible", "possibly", "possibility"], a: 1, exp: "im- means not (not possible)." }
+  ],
+  "Filling Gaps": [
+    { q: "She has been living here ______ 2015.", options: ["for", "since", "from", "at"], a: 1, exp: "since + point in time (2015)." },
+    { q: "He is interested ______ learning English.", options: ["on", "at", "in", "with"], a: 2, exp: "Interested in + V-ing." },
+    { q: "Neither Ali ______ Omar came.", options: ["or", "nor", "and", "but"], a: 1, exp: "Neither ... nor ..." }
+  ],
+  "Summary": [
+    { q: "What is the most important source of water in Sudan?", options: ["Rain", "River Nile", "Wells", "Lakes"], a: 1, exp: "The River Nile is the main source in Sudan." },
+    { q: "Which of these reduces poverty according to the education passage?", options: ["Education", "Sport", "Water", "Trees"], a: 0, exp: "Education reduces poverty and improves health." }
+  ],
+  "Comprehension": [
+    { q: "Where do the Blue Nile and White Nile meet?", options: ["Cairo", "Khartoum", "Atbara", "Uganda"], a: 1, exp: "They meet at Khartoum to form the main Nile." },
+    { q: "When was Martin Luther King born?", options: ["1919", "1929", "1939", "1949"], a: 1, exp: "He was born in 1929 in Atlanta." }
+  ],
+  "Composition": [
+    { q: "What is the required word count for Composition?", options: ["50-80 words", "100-119 words", "120-180 words", "200+ words"], a: 2, exp: "The exam requires between 120 and 180 words." },
+    { q: "Which of these is a valid format for Composition?", options: ["Letter", "Recipe", "Shopping List", "Poem"], a: 0, exp: "Letters and Essays are standard formats." }
+  ],
+  "Treasure Island": [
+    { q: "Who is the main narrator of Treasure Island?", options: ["Long John Silver", "Jim Hawkins", "Captain Smollett", "Billy Bones"], a: 1, exp: "Jim Hawkins is the young narrator." },
+    { q: "Who is the one-legged pirate?", options: ["Israel Hands", "Long John Silver", "Pew", "Ben Gunn"], a: 1, exp: "Long John Silver is the one-legged cook/pirate." },
+    { q: "What is the name of the ship?", options: ["Hispaniola", "Black Pearl", "Jolly Roger", "Nautilus"], a: 0, exp: "The ship is named the Hispaniola." }
+  ]
+};
+
+let currentSection = "";
+let currentQ = 0;
+let score = 0;
+
+function startSection(section) {
+  currentSection = section;
+  currentQ = 0;
+  score = 0;
+  document.getElementById('menu').classList.add('hidden');
+  document.getElementById('result').classList.add('hidden');
+  document.getElementById('quiz').classList.remove('hidden');
+  loadQuestion();
+}
+
+function loadQuestion() {
+  const qs = data[currentSection];
+  if (currentQ >= qs.length) {
+    showResult();
+    return;
+  }
+  
+  const q = qs[currentQ];
+  document.getElementById('questionText').innerText = q.q;
+  
+  const progress = ((currentQ) / qs.length) * 100;
+  document.getElementById('progress').style.width = progress + "%";
+  
+  const optsDiv = document.getElementById('optionsContainer');
+  optsDiv.innerHTML = "";
+  
+  q.options.forEach((opt, index) => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    btn.innerText = opt;
+    btn.onclick = () => checkAnswer(index, btn);
+    optsDiv.appendChild(btn);
+  });
+  
+  document.getElementById('explanation').classList.add('hidden');
+  document.getElementById('nextBtn').classList.add('hidden');
+}
+
+function checkAnswer(selectedIndex, btn) {
+  const qs = data[currentSection];
+  const q = qs[currentQ];
+  const allBtns = document.querySelectorAll('.option');
+  
+  allBtns.forEach((b, i) => {
+    b.disabled = true;
+    if (i === q.a) b.classList.add('correct');
+  });
+  
+  if (selectedIndex !== q.a) {
+    btn.classList.add('wrong');
+  } else {
+    score++;
+  }
+  
+  const expDiv = document.getElementById('explanation');
+  expDiv.innerText = "💡 " + q.exp;
+  expDiv.classList.remove('hidden');
+  
+  const nextBtn = document.getElementById('nextBtn');
+  nextBtn.classList.remove('hidden');
+  if (currentQ === qs.length - 1) {
+    nextBtn.innerText = "Finish & See Result";
+  } else {
+    nextBtn.innerText = "Next Question";
+  }
+}
+
+function nextQuestion() {
+  currentQ++;
+  loadQuestion();
+}
+
+function showResult() {
+  document.getElementById('quiz').classList.add('hidden');
+  document.getElementById('result').classList.remove('hidden');
+  
+  const total = data[currentSection].length;
+  document.getElementById('resultTitle').innerText = currentSection;
+  document.getElementById('scoreText').innerText = `Score: ${score} / ${total}`;
+}
+
+function goHome() {
+  document.getElementById('quiz').classList.add('hidden');
+  document.getElementById('result').classList.add('hidden');
+  document.getElementById('menu').classList.remove('hidden');
+}
+</script>
+</body>
+</html>

@@ -11,23 +11,33 @@
   header h1 { font-size: 22px; margin-bottom: 5px; }
   header p { font-size: 14px; color: #e0e0e0; }
   .container { padding: 15px; max-width: 600px; margin: auto; }
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
-  .card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center; cursor: pointer; border: 1px solid #eee; transition: 0.2s; }
-  .card:active { transform: scale(0.97); background: #f0fdfa; }
-  .card h3 { font-size: 15px; color: #0D6E6E; margin-bottom: 5px; }
-  .card p { font-size: 11px; color: #777; }
+  
+  .card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 12px; border: 1px solid #eee; }
+  .card-header { font-size: 16px; font-weight: bold; color: #0D6E6E; margin-bottom: 10px; text-align: center; }
+  .btn-group { display: flex; gap: 10px; }
+  .btn { flex: 1; padding: 12px; border: none; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; text-align: center; }
+  .btn-study { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+  .btn-test { background: #0D6E6E; color: white; }
+  
   .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #999; }
-  .btn { display: block; width: 100%; padding: 15px; background: #0D6E6E; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; margin-top: 15px; cursor: pointer; }
-  .btn:active { background: #095252; }
+  .back-btn { background: none; border: none; color: #0D6E6E; font-size: 16px; margin-bottom: 15px; cursor: pointer; padding: 5px; font-weight: bold; }
+  
+  .study-box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-size: 15px; line-height: 1.6; margin-bottom: 20px; border-left: 5px solid #F4A261; }
+  .study-box h3 { color: #0D6E6E; margin-top: 15px; margin-bottom: 5px; font-size: 16px; }
+  .study-box h3:first-child { margin-top: 0; }
+  .study-box p { margin-bottom: 10px; }
+  .study-box .example { color: #d97706; font-style: italic; margin-bottom: 10px; display: block; background: #fef3c7; padding: 8px; border-radius: 6px; }
+
+  .question-box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-size: 16px; line-height: 1.5; margin-bottom: 20px; }
   .option { display: block; width: 100%; padding: 15px; background: white; border: 2px solid #ddd; border-radius: 10px; margin-top: 10px; text-align: left; font-size: 15px; cursor: pointer; }
   .option.correct { background: #d1fae5; border-color: #10b981; color: #065f46; font-weight: bold; }
   .option.wrong { background: #fee2e2; border-color: #ef4444; color: #991b1b; font-weight: bold; }
-  .question-box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); font-size: 16px; line-height: 1.5; margin-bottom: 20px; }
-  .explanation { background: #e0f2fe; padding: 15px; border-radius: 10px; font-size: 14px; color: #0369a1; margin-top: 15px; border-left: 4px solid #0284c7; }
-  .back-btn { background: none; border: none; color: #0D6E6E; font-size: 16px; margin-bottom: 15px; cursor: pointer; padding: 5px; }
-  .hidden { display: none; }
+  .explanation { background: #e0f2fe; padding: 15px; border-radius: 10px; font-size: 14px; color: #0369a1; margin-top: 15px; border-left: 4px solid #0284c7; display: none; }
+  
+  .btn-next { display: block; width: 100%; padding: 15px; background: #0D6E6E; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; margin-top: 15px; cursor: pointer; display: none; }
   .progress-bar { height: 6px; background: #e5e7eb; border-radius: 3px; margin-bottom: 15px; }
   .progress-fill { height: 100%; background: #0D6E6E; border-radius: 3px; width: 0%; transition: 0.3s; }
+  .hidden { display: none !important; }
 </style>
 </head>
 <body>
@@ -37,101 +47,194 @@
   <p>SPINE - Sudan Secondary Certificate</p>
 </header>
 
-<div class="container" id="app">
-  <div id="menu">
-    <div class="grid">
-      <div class="card" onclick="startSection('Grammar')"><h3>Grammar</h3><p>Tenses, Passive, Conditionals</p></div>
-      <div class="card" onclick="startSection('Suffixes')"><h3>Suffixes</h3><p>-ful, -less, -ly...</p></div>
-      <div class="card" onclick="startSection('Prefixes')"><h3>Prefixes</h3><p>un-, dis-, im-...</p></div>
-      <div class="card" onclick="startSection('Filling Gaps')"><h3>Filling Gaps</h3><p>Choose the correct word</p></div>
-      <div class="card" onclick="startSection('Summary')"><h3>Summary</h3><p>Key points</p></div>
-      <div class="card" onclick="startSection('Comprehension')"><h3>Comprehension</h3><p>Read and answer</p></div>
-      <div class="card" onclick="startSection('Composition')"><h3>Composition</h3><p>120-180 words</p></div>
-      <div class="card" onclick="startSection('Treasure Island')"><h3>Treasure Island</h3><p>Literature MCQ</p></div>
-    </div>
-    <div class="footer">
-      Designed by<br><b>Ustaz Hashim Hassan Al-Mahi</b>
-    </div>
+<div class="container">
+  
+  <div id="menuScreen">
+    <div id="menuList"></div>
+    <div class="footer">Designed by<br><b>Ustaz Hashim Hassan Al-Mahi</b></div>
   </div>
 
-  <div id="quiz" class="hidden">
+  <div id="studyScreen" class="hidden">
+    <button class="back-btn" onclick="goHome()">← Back to Menu</button>
+    <h2 id="studyTitle" style="color:#0D6E6E; margin-bottom:15px;"></h2>
+    <div class="study-box" id="studyContent"></div>
+    <button class="btn btn-test" style="width:100%;" onclick="startTest(currentSection)">Go to Test 📝</button>
+  </div>
+
+  <div id="quizScreen" class="hidden">
     <button class="back-btn" onclick="goHome()">← Back to Menu</button>
     <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
-    
     <div class="question-box" id="questionText"></div>
     <div id="optionsContainer"></div>
-    <div class="explanation hidden" id="explanation"></div>
-    
-    <button class="btn hidden" id="nextBtn" onclick="nextQuestion()">Next Question</button>
+    <div class="explanation" id="explanation"></div>
+    <button class="btn-next" id="nextBtn" onclick="nextQuestion()">Next Question</button>
   </div>
 
-  <div id="result" class="hidden" style="text-align: center; margin-top: 40px;">
+  <div id="resultScreen" class="hidden" style="text-align: center; margin-top: 40px;">
     <h1 style="font-size: 50px; margin-bottom: 10px;">🎉</h1>
     <h2 id="resultTitle">Finished!</h2>
     <p style="font-size: 20px; margin: 15px 0;" id="scoreText"></p>
-    <button class="btn" onclick="goHome()">Back to Home</button>
+    <button class="btn btn-test" style="width:100%;" onclick="goHome()">Back to Home</button>
   </div>
+
 </div>
 
 <script>
-const data = {
+const studyData = {
+  "Grammar": `
+    <h3>1. Tenses (الأزمنة)</h3>
+    <p>Present Simple: حقائق وعادات. <span class="example">Ali goes to school every day.</span></p>
+    <p>Past Simple: انتهى في الماضي. <span class="example">They played yesterday.</span></p>
+    <p>Present Perfect: بدأ في الماضي ومستمر أو أثره باقٍ. <span class="example">She has lived here since 2010.</span></p>
+    
+    <h3>2. Conditionals (الجمل الشرطية)</h3>
+    <p>First (واقعي): If + Present, will + inf. <span class="example">If it rains, we will cancel.</span></p>
+    <p>Second (خيالي): If + Past, would + inf. <span class="example">If I were rich, I would travel.</span></p>
+    <p>Third (مستحيل): If + Past Perfect, would have + V3. <span class="example">If she had studied, she would have passed.</span></p>
+
+    <h3>3. Passive Voice (المبني للمجهول)</h3>
+    <p>Present: is/are + V3. <span class="example">English is spoken worldwide.</span></p>
+    <p>Past: was/were + V3. <span class="example">The letter was written by Ahmed.</span></p>
+
+    <h3>4. Subject-Verb Agreement (توافق الفاعل والفعل)</h3>
+    <p>Each / Every / One of: يأخذ فعل مفرد. <span class="example">Each of the students has a book.</span></p>
+    <p>A number of: يأخذ فعل جمع. <span class="example">A number of students are absent.</span></p>
+    <p>The number of: يأخذ فعل مفرد. <span class="example">The number of cars increases.</span></p>
+
+    <h3>5. Infinitive & Gerund</h3>
+    <p>want/decide + to + inf. <span class="example">I want to go.</span></p>
+    <p>enjoy/preposition + V-ing. <span class="example">I enjoy reading.</span></p>
+    <p>let/make + inf without to. <span class="example">Let him go.</span></p>
+  `,
+  "Suffixes": `<h3>Suffixes (اللواحق)</h3><p>تُضاف لنهاية الكلمة لتغيير نوعها.</p><p>-ful = مليء بـ <span class="example">careful</span></p><p>-less = بدون <span class="example">hopeless</span></p><p>-ly = ظرف <span class="example">quickly</span></p><p>-er/-or = شخص يقوم بالفعل <span class="example">teacher / actor</span></p>`,
+  "Prefixes": `<h3>Prefixes (السوابق)</h3><p>تُضاف لبداية الكلمة وتعني النفي أو العكس غالباً.</p><p>un- <span class="example">unhappy</span></p><p>dis- <span class="example">disagree</span></p><p>im- <span class="example">impossible</span></p><p>re- = إعادة <span class="example">rewrite</span></p>`,
+  "Filling Gaps": `<h3>Filling Gaps</h3><p>تعتمد على حروف الجر (Prepositions) والروابط (Conjunctions) وقواعد الكلمات.</p><p>interested in <span class="example">in</span></p><p>since + زمن محدد <span class="example">since 2015</span></p><p>neither ... nor <span class="example">nor</span></p>`,
+  "Summary": `<h3>Summary</h3><p>قراءة قطعة وتلخيصها في عدد كلمات محدد (10-20 كلمة).</p><p>ركز على: المصادر، الأسباب، النتائج، الأهمية.</p>`,
+  "Comprehension": `<h3>Comprehension</h3><p>قراءة قطعة والإجابة على الأسئلة. ابحث عن الكلمات المفتاحية في السؤال داخل القطعة.</p>`,
+  "Composition": `<h3>Composition</h3><p>كتابة موضوع من 120 إلى 180 كلمة.</p><p>الأنواع: رسالة (Letter)، مقال (Essay)، تقرير (Report).</p><p>احرص على المقدمة، الموضوع، والخاتمة.</p>`,
+  "Treasure Island": `<h3>Treasure Island (كنز الجزيرة)</h3><p>رواية للمؤلف Robert Louis Stevenson.</p><p>الشخصيات: Jim Hawkins (الراوي)، Long John Silver (القرصان ذو الساق الخشبية)، Captain Smollett، Dr. Livesey، Ben Gunn.</p><p>السفينة: Hispaniola. الكنز دفنه Captain Flint.</p>`
+};
+
+const testData = {
   "Grammar": [
-    { q: "Ali ______ to school every day. (go)", options: ["go", "goes", "going", "went"], a: 1, exp: "Present Simple: Ali (he) takes verb + s." },
-    { q: "They ______ football yesterday. (play)", options: ["play", "plays", "played", "playing"], a: 2, exp: "Past Simple: yesterday indicates past tense V2." },
-    { q: "Look! The baby ______ now. (sleep)", options: ["sleeps", "is sleeping", "slept", "sleep"], a: 1, exp: "Present Continuous: happening now." },
-    { q: "The letter ______ by Ahmed yesterday. (write)", options: ["wrote", "was written", "is written", "written"], a: 1, exp: "Passive Voice Past: was + V3." },
-    { q: "If it ______ tomorrow, we will cancel. (rain)", options: ["rains", "will rain", "rained", "is raining"], a: 0, exp: "First Conditional: If + Present Simple, will + V." }
+    { q: "Ali ______ to school every day. (go)", o: ["go", "goes", "going", "went"], a: 1, e: "Present Simple: Ali (he) takes verb + s." },
+    { q: "They ______ football yesterday. (play)", o: ["play", "plays", "played", "playing"], a: 2, e: "Past Simple: yesterday indicates past tense V2." },
+    { q: "Look! The baby ______ now. (sleep)", o: ["sleeps", "is sleeping", "slept", "sleep"], a: 1, e: "Present Continuous: happening now." },
+    { q: "I ______ my homework already. (finish)", o: ["finish", "finished", "have finished", "finishing"], a: 2, e: "Present Perfect: already indicates have + V3." },
+    { q: "By 2030, we ______ the bridge. (build)", o: ["build", "built", "will build", "will have built"], a: 3, e: "Future Perfect: by + future time." },
+    { q: "When I arrived, they ______ dinner. (eat)", o: ["eat", "ate", "were eating", "have eaten"], a: 2, e: "Past Continuous: interrupted action." },
+    { q: "She ______ in Khartoum since 2010. (live)", o: ["lives", "lived", "has lived", "is living"], a: 2, e: "Present Perfect: since + point in time." },
+    { q: "If it ______ tomorrow, we will cancel. (rain)", o: ["rains", "will rain", "rained", "is raining"], a: 0, e: "First Conditional: If + Present Simple." },
+    { q: "If I ______ rich, I would travel. (be)", o: ["am", "was", "were", "be"], a: 2, e: "Second Conditional: If + Past Simple (were)." },
+    { q: "If she ______ harder, she would have passed. (study)", o: ["studies", "studied", "had studied", "has studied"], a: 2, e: "Third Conditional: If + Past Perfect." },
+    { q: "The letter ______ by Ahmed yesterday. (write)", o: ["wrote", "was written", "is written", "written"], a: 1, e: "Passive Past: was + V3." },
+    { q: "English ______ all over the world. (speak)", o: ["speaks", "spoke", "is spoken", "was spoken"], a: 2, e: "Passive Present: is + V3." },
+    { q: "The car ______ at the moment. (repair)", o: ["repairs", "is repairing", "is being repaired", "repaired"], a: 2, e: "Passive Present Continuous: is being + V3." },
+    { q: "You are a student, ______?", o: ["are you", "aren't you", "don't you", "isn't it"], a: 1, e: "Positive statement -> negative tag." },
+    { q: "She doesn't like tea, ______?", o: ["does she", "doesn't she", "is she", "isn't she"], a: 0, e: "Negative statement -> positive tag." },
+    { q: "I want ______ home now. (go)", o: ["go", "going", "to go", "went"], a: 2, e: "want + to + infinitive." },
+    { q: "Let him ______ home.", o: ["go", "to go", "going", "went"], a: 0, e: "let + bare infinitive (without to)." },
+    { q: "I enjoy ______ novels. (read)", o: ["read", "to read", "reading", "reads"], a: 2, e: "enjoy + V-ing." },
+    { q: "Each of the students ______ a book. (have)", o: ["have", "has", "having", "had"], a: 1, e: "Each = singular -> has." },
+    { q: "A number of students ______ absent today. (be)", o: ["is", "are", "was", "be"], a: 1, e: "A number of = plural -> are." }
   ],
   "Suffixes": [
-    { q: "Be ______ when you cross the street. (care)", options: ["care", "careful", "careless", "caring"], a: 1, exp: "-ful means full of care." },
-    { q: "He felt ______ after losing. (hope)", options: ["hope", "hopeful", "hopeless", "hoping"], a: 2, exp: "-less means without hope." },
-    { q: "He ran ______ to catch the bus. (quick)", options: ["quick", "quicker", "quickly", "quickness"], a: 2, exp: "-ly turns adjectives into adverbs." }
+    { q: "Be ______ when you cross the street. (care)", o: ["care", "careful", "careless", "caring"], a: 1, e: "-ful means full of care." },
+    { q: "He felt ______ after losing. (hope)", o: ["hope", "hopeful", "hopeless", "hoping"], a: 2, e: "-less means without hope." },
+    { q: "He ran ______ to catch the bus. (quick)", o: ["quick", "quicker", "quickly", "quickness"], a: 2, e: "-ly turns adjectives into adverbs." },
+    { q: "She treated him with great ______. (kind)", o: ["kind", "kindly", "kindness", "kinder"], a: 2, e: "-ness turns adjective into noun." },
+    { q: "The ______ of Sudan needs effort. (develop)", o: ["develop", "development", "developing", "developed"], a: 1, e: "-ment turns verb into noun." },
+    { q: "My father is a ______. (teach)", o: ["teach", "teacher", "teaching", "taught"], a: 1, e: "-er indicates a person who does the action." }
   ],
   "Prefixes": [
-    { q: "He was ______ because he failed. (happy)", options: ["happy", "unhappy", "happier", "happily"], a: 1, exp: "un- means not (not happy)." },
-    { q: "I ______ with your opinion. (agree)", options: ["agree", "disagree", "agreement", "agreeing"], a: 1, exp: "dis- means opposite/not." },
-    { q: "It is ______ to finish in one day. (possible)", options: ["possible", "impossible", "possibly", "possibility"], a: 1, exp: "im- means not (not possible)." }
+    { q: "He was ______ because he failed. (happy)", o: ["happy", "unhappy", "happier", "happily"], a: 1, e: "un- means not." },
+    { q: "I ______ with your opinion. (agree)", o: ["agree", "disagree", "agreement", "agreeing"], a: 1, e: "dis- means opposite/not." },
+    { q: "It is ______ to finish in one day. (possible)", o: ["possible", "impossible", "possibly", "possibility"], a: 1, e: "im- means not before p." },
+    { q: "Your answer is ______. (correct)", o: ["correct", "incorrect", "correctly", "corrected"], a: 1, e: "in- means not." },
+    { q: "Smuggling is ______. (legal)", o: ["legal", "illegal", "legally", "legality"], a: 1, e: "il- means not before l." },
+    { q: "Please ______ the paragraph. (write)", o: ["write", "rewrite", "writing", "written"], a: 1, e: "re- means again." }
   ],
   "Filling Gaps": [
-    { q: "She has been living here ______ 2015.", options: ["for", "since", "from", "at"], a: 1, exp: "since + point in time (2015)." },
-    { q: "He is interested ______ learning English.", options: ["on", "at", "in", "with"], a: 2, exp: "Interested in + V-ing." },
-    { q: "Neither Ali ______ Omar came.", options: ["or", "nor", "and", "but"], a: 1, exp: "Neither ... nor ..." }
+    { q: "She has been living here ______ 2015.", o: ["for", "since", "from", "at"], a: 1, e: "since + point in time." },
+    { q: "He is interested ______ learning English.", o: ["on", "at", "in", "with"], a: 2, e: "Interested in + V-ing." },
+    { q: "They arrived ______ Khartoum.", o: ["at", "in", "to", "on"], a: 1, e: "Arrive in + city." },
+    { q: "I am looking forward ______ you.", o: ["to see", "to seeing", "seeing", "see"], a: 1, e: "Look forward to + V-ing." },
+    { q: "Neither Ali ______ Omar came.", o: ["or", "nor", "and", "but"], a: 1, e: "Neither ... nor ..." },
+    { q: "I have ______ money, so I can't buy it.", o: ["a few", "few", "a little", "little"], a: 3, e: "little = not enough (negative)." },
+    { q: "She is taller ______ her sister.", o: ["then", "than", "from", "of"], a: 1, e: "Comparative + than." }
   ],
   "Summary": [
-    { q: "What is the most important source of water in Sudan?", options: ["Rain", "River Nile", "Wells", "Lakes"], a: 1, exp: "The River Nile is the main source in Sudan." },
-    { q: "Which of these reduces poverty according to the education passage?", options: ["Education", "Sport", "Water", "Trees"], a: 0, exp: "Education reduces poverty and improves health." }
+    { q: "What is the most important source of water in Sudan?", o: ["Rain", "River Nile", "Wells", "Lakes"], a: 1, e: "The River Nile is the main source." },
+    { q: "Which reduces poverty according to the education passage?", o: ["Education", "Sport", "Water", "Trees"], a: 0, e: "Education reduces poverty." },
+    { q: "What do trees provide us with?", o: ["Oxygen", "Gold", "Plastic", "Iron"], a: 0, e: "Trees provide oxygen and clean the air." }
   ],
   "Comprehension": [
-    { q: "Where do the Blue Nile and White Nile meet?", options: ["Cairo", "Khartoum", "Atbara", "Uganda"], a: 1, exp: "They meet at Khartoum to form the main Nile." },
-    { q: "When was Martin Luther King born?", options: ["1919", "1929", "1939", "1949"], a: 1, exp: "He was born in 1929 in Atlanta." }
+    { q: "Where do the Blue Nile and White Nile meet?", o: ["Cairo", "Khartoum", "Atbara", "Uganda"], a: 1, e: "They meet at Khartoum." },
+    { q: "When was Martin Luther King born?", o: ["1919", "1929", "1939", "1949"], a: 1, e: "He was born in 1929." },
+    { q: "Who fetches water in Sudanese villages?", o: ["Men only", "Women and children", "Soldiers", "Farmers"], a: 1, e: "Women and children fetch water." },
+    { q: "What does dirty water cause?", o: ["Health", "Wealth", "Cholera", "Rain"], a: 2, e: "Dirty water causes diseases like cholera." }
   ],
   "Composition": [
-    { q: "What is the required word count for Composition?", options: ["50-80 words", "100-119 words", "120-180 words", "200+ words"], a: 2, exp: "The exam requires between 120 and 180 words." },
-    { q: "Which of these is a valid format for Composition?", options: ["Letter", "Recipe", "Shopping List", "Poem"], a: 0, exp: "Letters and Essays are standard formats." }
+    { q: "What is the required word count for Composition?", o: ["50-80 words", "100-119 words", "120-180 words", "200+ words"], a: 2, e: "The exam requires between 120 and 180 words." },
+    { q: "Which of these is a valid format for Composition?", o: ["Letter", "Recipe", "Shopping List", "Poem"], a: 0, e: "Letters and Essays are standard formats." },
+    { q: "How should you start a formal letter?", o: ["Dear friend", "Dear Sir/Madam", "Hi", "Hello"], a: 1, e: "Formal letters start with Dear Sir/Madam." }
   ],
   "Treasure Island": [
-    { q: "Who is the main narrator of Treasure Island?", options: ["Long John Silver", "Jim Hawkins", "Captain Smollett", "Billy Bones"], a: 1, exp: "Jim Hawkins is the young narrator." },
-    { q: "Who is the one-legged pirate?", options: ["Israel Hands", "Long John Silver", "Pew", "Ben Gunn"], a: 1, exp: "Long John Silver is the one-legged cook/pirate." },
-    { q: "What is the name of the ship?", options: ["Hispaniola", "Black Pearl", "Jolly Roger", "Nautilus"], a: 0, exp: "The ship is named the Hispaniola." }
+    { q: "Who is the main narrator of Treasure Island?", o: ["Long John Silver", "Jim Hawkins", "Captain Smollett", "Billy Bones"], a: 1, e: "Jim Hawkins is the young narrator." },
+    { q: "Who is the one-legged pirate?", o: ["Israel Hands", "Long John Silver", "Pew", "Ben Gunn"], a: 1, e: "Long John Silver is the one-legged pirate." },
+    { q: "What is the name of the ship?", o: ["Hispaniola", "Black Pearl", "Jolly Roger", "Nautilus"], a: 0, e: "The ship is named the Hispaniola." },
+    { q: "Who was marooned on the island for three years?", o: ["Ben Gunn", "Jim", "Silver", "Smollett"], a: 0, e: "Ben Gunn was marooned for three years." },
+    { q: "What does Jim find in Billy Bones' chest?", o: ["Gold coins and a map", "A pistol", "A parrot", "A letter"], a: 0, e: "He found gold and the treasure map." },
+    { q: "Who is the doctor in the story?", o: ["Dr. Livesey", "Dr. Watson", "Dr. Jekyll", "Dr. Smollett"], a: 0, e: "Dr. Livesey is the doctor." },
+    { q: "Who wrote Treasure Island?", o: ["Charles Dickens", "Robert Louis Stevenson", "Mark Twain", "Daniel Defoe"], a: 1, e: "The author is Robert Louis Stevenson." }
   ]
 };
 
 let currentSection = "";
 let currentQ = 0;
 let score = 0;
+let isStudyMode = false;
 
-function startSection(section) {
+function initMenu() {
+  const menuList = document.getElementById('menuList');
+  menuList.innerHTML = "";
+  Object.keys(studyData).forEach(section => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML = `
+      <div class="card-header">${section}</div>
+      <div class="btn-group">
+        <button class="btn btn-study" onclick="openStudy('${section}')">📖 Study</button>
+        <button class="btn btn-test" onclick="startTest('${section}')">📝 Test</button>
+      </div>
+    `;
+    menuList.appendChild(div);
+  });
+}
+
+function openStudy(section) {
+  currentSection = section;
+  document.getElementById('menuScreen').classList.add('hidden');
+  document.getElementById('studyScreen').classList.remove('hidden');
+  document.getElementById('studyTitle').innerText = section + " - Study Guide";
+  document.getElementById('studyContent').innerHTML = studyData[section];
+  window.scrollTo(0,0);
+}
+
+function startTest(section) {
   currentSection = section;
   currentQ = 0;
   score = 0;
-  document.getElementById('menu').classList.add('hidden');
-  document.getElementById('result').classList.add('hidden');
-  document.getElementById('quiz').classList.remove('hidden');
+  document.getElementById('menuScreen').classList.add('hidden');
+  document.getElementById('studyScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.add('hidden');
+  document.getElementById('quizScreen').classList.remove('hidden');
   loadQuestion();
+  window.scrollTo(0,0);
 }
 
 function loadQuestion() {
-  const qs = data[currentSection];
+  const qs = testData[currentSection];
   if (currentQ >= qs.length) {
     showResult();
     return;
@@ -146,7 +249,7 @@ function loadQuestion() {
   const optsDiv = document.getElementById('optionsContainer');
   optsDiv.innerHTML = "";
   
-  q.options.forEach((opt, index) => {
+  q.o.forEach((opt, index) => {
     const btn = document.createElement('button');
     btn.className = 'option';
     btn.innerText = opt;
@@ -154,12 +257,13 @@ function loadQuestion() {
     optsDiv.appendChild(btn);
   });
   
-  document.getElementById('explanation').classList.add('hidden');
-  document.getElementById('nextBtn').classList.add('hidden');
+  const expDiv = document.getElementById('explanation');
+  expDiv.style.display = 'none';
+  document.getElementById('nextBtn').style.display = 'none';
 }
 
 function checkAnswer(selectedIndex, btn) {
-  const qs = data[currentSection];
+  const qs = testData[currentSection];
   const q = qs[currentQ];
   const allBtns = document.querySelectorAll('.option');
   
@@ -175,11 +279,11 @@ function checkAnswer(selectedIndex, btn) {
   }
   
   const expDiv = document.getElementById('explanation');
-  expDiv.innerText = "💡 " + q.exp;
-  expDiv.classList.remove('hidden');
+  expDiv.innerText = "💡 " + q.e;
+  expDiv.style.display = 'block';
   
   const nextBtn = document.getElementById('nextBtn');
-  nextBtn.classList.remove('hidden');
+  nextBtn.style.display = 'block';
   if (currentQ === qs.length - 1) {
     nextBtn.innerText = "Finish & See Result";
   } else {
@@ -193,19 +297,31 @@ function nextQuestion() {
 }
 
 function showResult() {
-  document.getElementById('quiz').classList.add('hidden');
-  document.getElementById('result').classList.remove('hidden');
+  document.getElementById('quizScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.remove('hidden');
   
-  const total = data[currentSection].length;
+  const total = testData[currentSection].length;
+  const percent = Math.round((score/total)*100);
+  
+  let msg = "";
+  if(percent >= 80) msg = "Excellent! 🌟";
+  else if(percent >= 60) msg = "Good job! 👍";
+  else if(percent >= 40) msg = "Not bad, keep practicing 💪";
+  else msg = "Keep practicing, you will improve 📚";
+
   document.getElementById('resultTitle').innerText = currentSection;
-  document.getElementById('scoreText').innerText = `Score: ${score} / ${total}`;
+  document.getElementById('scoreText').innerHTML = `Score: ${score} / ${total} (${percent}%)<br><br>${msg}`;
 }
 
 function goHome() {
-  document.getElementById('quiz').classList.add('hidden');
-  document.getElementById('result').classList.add('hidden');
-  document.getElementById('menu').classList.remove('hidden');
+  document.getElementById('quizScreen').classList.add('hidden');
+  document.getElementById('studyScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.add('hidden');
+  document.getElementById('menuScreen').classList.remove('hidden');
+  window.scrollTo(0,0);
 }
+
+initMenu();
 </script>
 </body>
 </html>
